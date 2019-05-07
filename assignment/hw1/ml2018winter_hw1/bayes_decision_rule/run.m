@@ -20,6 +20,7 @@ axis([range(1) - 1, range(2) + 1, 0, 0.5]);
 %TODO
 %compute the number of all the misclassified x using maximum likelihood decision rule
 
+pause;
 %% Part2 posterior:
 p = posterior(train_x);
 
