@@ -1,4 +1,4 @@
-function p = gaussian_pos_prob(X, Mu, Sigma, Phi)
+function P = gaussian_pos_prob(X, Mu, Sigma, Phi)
 %GAUSSIAN_POS_PROB Posterior probability of GDA.
 %   p = GAUSSIAN_POS_PROB(X, Mu, Sigma) compute the posterior probability
 %   of given N data points X using Gaussian Discriminant Analysis where the
@@ -20,3 +20,14 @@ K = length(Phi);
 P = zeros(N, K);
 
 % Your code HERE
+for i=1:K
+    phi_i = Phi(i);
+    Sigma_i = Sigma(:, :, i);
+    mu_i = Mu(:, i);
+    deteminant = det(Sigma_i);
+    Sigma_i_inv = pinv(Sigma_i);
+    post_i = phi_i / (2 * pi * sqrt(deteminant)) * exp(-0.5 * sum((X - mu_i)' * Sigma_i .* (X - mu_i)', 2));
+    P(:, i) = post_i;
+end
+
+P = P ./ sum(P, 2);

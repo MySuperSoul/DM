@@ -19,8 +19,20 @@ axis([range(1) - 1, range(2) + 1, 0, 0.5]);
 
 %TODO
 %compute the number of all the misclassified x using maximum likelihood decision rule
+num_of_error_test = 0;
 
-pause;
+for i = 1:size(test_x, 2)
+    prob_1 = l(1, i);
+    prob_2 = l(2, i);
+    if prob_1 > prob_2
+        num_of_error_test += test_x(2, i);
+    else
+        num_of_error_test += test_x(1, i);
+    end
+end
+
+fprintf("Using maximum likelihood decision rule, Test error is %d\n", num_of_error_test);
+
 %% Part2 posterior:
 p = posterior(train_x);
 
@@ -31,8 +43,25 @@ axis([range(1) - 1, range(2) + 1, 0, 1.2]);
 
 %TODO
 %compute the number of all the misclassified x using optimal bayes decision rule
+num_of_error_test = 0;
+for i = 1:size(test_x, 2)
+    prob_1 = p(1, i);
+    prob_2 = p(2, i);
+    if prob_1 > prob_2
+        num_of_error_test += test_x(2, i);
+    else
+        num_of_error_test += test_x(1, i);
+    end
+end
+fprintf("Using optimal bayes decision rule, Test error is %d\n", num_of_error_test);
 
 %% Part3 risk:
 risk = [0, 1; 2, 0];
 %TODO
 %get the minimal risk using optimal bayes decision rule and risk weights
+
+matrix_omega_1 = sum(p .* risk(1, :)');
+matrix_omega_2 = sum(p .* risk(2, :)');
+matrix_min = min(matrix_omega_1, matrix_omega_2);
+risk_min = sum(matrix_min);
+fprintf("The minimum risk is %f\n", risk_min);

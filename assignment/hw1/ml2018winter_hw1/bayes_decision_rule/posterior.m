@@ -12,4 +12,10 @@ l = likelihood(x);
 total = sum(sum(x));
 %TODO
 
+p = zeros(C, N);
+
+prior = sum(x, 2) / total;
+evidence = sum(x) / total;
+
+p = (l .* prior) ./ evidence;
 end

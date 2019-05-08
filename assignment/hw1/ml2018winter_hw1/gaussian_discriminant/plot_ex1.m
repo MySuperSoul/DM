@@ -4,7 +4,7 @@ if mod(pos-1, 4) == 0
     figure;
 end
 
-N = 100;
+N = 500;
 
 % generate data
 X0 = mvnrnd(mu0, Sigma0, round((1-phi) * N))';
@@ -47,7 +47,7 @@ set(gca,'ydir','normal');
 % class 1 = light red, 2 = light green, 3 = light blue
 cmap = [1 0.8 0.8; 0.95 1 0.95; 0.9 0.9 1];
 colormap(cmap);
-alpha(0.8);
+%alpha(0.8);
 
 diff = abs(pos_prob-0.5);
 diff_sorted = sort(diff);
