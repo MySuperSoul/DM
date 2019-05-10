@@ -11,4 +11,6 @@ function l = likelihood(x)
 l = zeros(C, N);
 %TODO
 
+sum_matrix = sum(x, 2);
+l = x ./ sum_matrix;
 end
