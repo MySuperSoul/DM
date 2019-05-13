@@ -6,7 +6,7 @@ mu0 = [0; 0];
 Sigma0 = [1, 0; 0, 1];
 mu1 = [6; 6];
 Sigma1 = [1, 0; 0, 1];
-phi = 1/2;
+phi = 0.5;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Line', 1);
 
 
@@ -21,7 +21,7 @@ mu0 = [0; 0];
 Sigma0 = [1, 0; 0, 1];
 mu1 = [3; 3];
 Sigma1 = [2, 0; 0, 1];
-phi = 1/2;
+phi = 0.5;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Parabolic', 3);
 
 
@@ -29,14 +29,14 @@ mu0 = [2; 1];
 Sigma0 = [1, 0; 0, 6];
 mu1 = [1; 3];
 Sigma1 = [4, 0; 0, 1];
-phi = 1/2;
+phi = 0.5;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Hyperbola', 4);
 
 mu0 = [0; 1];
 Sigma0 = [1, 0; 0, 4];
 mu1 = [0; 2];
 Sigma1 = [1, 0; 0, 2];
-phi = 1/2;
+phi = 0.5;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Two parallel lines.', 5);
 
 mu0 = [1; 1];

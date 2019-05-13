@@ -26,8 +26,9 @@ for i=1:K
     mu_i = Mu(:, i);
     deteminant = det(Sigma_i);
     Sigma_i_inv = pinv(Sigma_i);
-    post_i = phi_i / (2 * pi * sqrt(deteminant)) * exp(-0.5 * sum((X - mu_i)' * Sigma_i .* (X - mu_i)', 2));
+    post_i = phi_i / (2 * pi * sqrt(deteminant)) * ...
+      exp(-0.5 * sum((X - mu_i)' * Sigma_i .* (X - mu_i)', 2));
     P(:, i) = post_i;
 end
-
-P = P ./ sum(P, 2);
+evidence_matrix = sum(P, 2);
+P = P ./ evidence_matrix;

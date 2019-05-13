@@ -56,10 +56,11 @@ end
 fprintf("Using optimal bayes decision rule, Test error is %d\n", num_of_error_test);
 
 %% Part3 risk:
-risk = [0, 1; 2, 0];
+
 %TODO
 %get the minimal risk using optimal bayes decision rule and risk weights
-
+% p is the posterior
+risk = [0, 1; 2, 0];
 matrix_omega_1 = sum(p .* risk(1, :)');
 matrix_omega_2 = sum(p .* risk(2, :)');
 matrix_min = min(matrix_omega_1, matrix_omega_2);
