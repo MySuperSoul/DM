@@ -39,11 +39,11 @@ Sigma1 = [1, 0; 0, 2];
 phi = 0.5;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Two parallel lines.', 5);
 
-mu0 = [1; 1];
-Sigma0 = [2, 0; 0, 2];
-mu1 = [2; 2];
-Sigma1 = [1, 0; 0, 1];
-phi = 0.3;
+mu1 = [1; 1];
+Sigma1 = [2, 0; 0, 2];
+mu0 = [2; 2];
+Sigma0 = [1, 0; 0, 1];
+phi = 0.7;
 plot_ex1(mu0, Sigma0, mu1, Sigma1, phi, 'Circle', 6);
 
 mu0 = [0; 1];
