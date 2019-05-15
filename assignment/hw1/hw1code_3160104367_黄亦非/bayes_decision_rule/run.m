@@ -61,17 +61,14 @@ fprintf("Using optimal bayes decision rule, Test error is %d\n", num_of_error_te
 %get the minimal risk using optimal bayes decision rule and risk weights
 % p is the posterior of training set
 risk = [0, 1; 2, 0];
-matrix_omega_1 = sum(p .* risk(1, :)');
-matrix_omega_2 = sum(p .* risk(2, :)');
-matrix_min = min(matrix_omega_1, matrix_omega_2);
-risk_min = sum(matrix_min);
-fprintf("The minimum risk for training set is %f\n", risk_min);
 
-% use test set to calculate risk
-% retrive both 0 columns
-p = posterior(test_x(:, 4:size(test_x, 2) - 1));
-matrix_omega_1 = sum(p .* risk(1, :)');
-matrix_omega_2 = sum(p .* risk(2, :)');
+all_x_matrix = test_x + train_x;
+total = sum(sum(all_x_matrix));
+prior_matrix = sum(all_x_matrix) / total;
+p = posterior(all_x_matrix);
+
+matrix_omega_1 = sum(p .* risk(1, :)') .* prior_matrix;
+matrix_omega_2 = sum(p .* risk(2, :)') .* prior_matrix;
 matrix_min = min(matrix_omega_1, matrix_omega_2);
 risk_min = sum(matrix_min);
-fprintf("The minimum risk for test set is %f\n", risk_min);
+fprintf("The minimum risk for all sample set is %f\n", risk_min);
