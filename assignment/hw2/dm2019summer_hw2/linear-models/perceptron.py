@@ -17,6 +17,18 @@ def perceptron(X, y):
     # YOUR CODE HERE
     
     # begin answer
+    converge_flag = False
+    while True:
+        if converge_flag: break
+        converge_flag = True # initial to true
+        iters += 1
+        for i in range(0, N):
+            x = np.insert(X[:, i], 0, [1], 0)
+            s = np.dot(np.transpose(w), x) * y[:, i]
+            if (s <= 0):
+                matrix = x * y[:, i]
+                w = w + matrix.reshape(matrix.shape[0], 1)
+                converge_flag = False
     # end answer
     
     return w, iters

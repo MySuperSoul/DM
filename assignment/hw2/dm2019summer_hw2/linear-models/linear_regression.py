@@ -10,8 +10,11 @@ def linear_regression(X, y):
     OUTPUT: w: learned perceptron parameters, (P+1)-by-1 column vector.
     '''
     P, N = X.shape
-    w = np.zeros((P + 1, 1))
+    # w = np.zeros((P + 1, 1))
     # YOUR CODE HERE
     # begin answer
+    X = np.insert(X, 0, values=np.ones((1, N)), axis=0) # add bias
+    s = np.linalg.pinv(np.dot(X, X.transpose())) # (X X.T)^-1
+    w = np.dot(np.dot(s, X), y.T) # * X * y
     # end answer
     return w
