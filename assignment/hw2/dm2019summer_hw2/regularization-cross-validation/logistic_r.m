@@ -9,5 +9,12 @@ function w = logistic_r(X, y, lambda)
 %
 
 % YOUR CODE HERE
+num_iters = 100;
+learning_rate = 0.1;
+X = [ones(1, size(X, 2));X]; % add bias to X
+w = ones(size(X, 1), 1);
 
+for i = 1:num_iters
+    w = w - learning_rate * (sum(X .* (Sigmoid(w, X) - y), 2) + 2 * lambda * w);
+end
 end

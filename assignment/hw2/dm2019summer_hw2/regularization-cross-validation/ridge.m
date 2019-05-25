@@ -10,5 +10,11 @@ function w = ridge(X, y, lambda)
 % NOTE: You can use pinv() if the matrix is singular.
 
 % YOUR CODE HERE
+P = size(X, 1);
+N = size(X, 2);
 
+w = ones(P + 1, 1);
+X = [ones(1, N);X]; % add bias
+
+w = pinv(X * X' + lambda * eye(P+1)) * X * y'; 
 end
