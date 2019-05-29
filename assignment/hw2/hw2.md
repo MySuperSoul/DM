@@ -12,16 +12,16 @@
 &nbsp;&nbsp;&nbsp;&nbsp;The following is my results :
 
     -> When the number of training set is 10, the training error rate 
-       is 0, and the testing error rate is 0.11166
+       is 0, and the testing error rate is 0.11132
     -> When the number of training set is 100, the training error rate
-       is 0, and the testing error rate is 0.01448
+       is 0, and the testing error rate is 0.01377
 
 <br>
 
 - **(ii)**
 
-    - When the number of training set is `10`, the average number of iterations before converge is `5.353`
-    - When the number of training set is `100`, the average number of iterations before converge is `38.921`
+    - When the number of training set is `10`, the average number of iterations before converge is `5.691`
+    - When the number of training set is `100`, the average number of iterations before converge is `39.399`
 <br>
 
 - **(iii)**
@@ -32,7 +32,7 @@
 **(b) Linear Regression**
 
 - **(i)**
-&nbsp;&nbsp;&nbsp;&nbsp;In this section, I also fit the `Ttrain + Ttest` into `mkdata` to get my training set and test set. The training error rate is `0.03766 or 3.766%`, the test error rate is `0.04735 or 4.735%`. And the linear-regression parameter is get from $\hat{\omega} = (XX^T)^{-1}Xy$, the implementing code is below:
+&nbsp;&nbsp;&nbsp;&nbsp;In this section, I also fit the `Ttrain + Ttest` into `mkdata` to get my training set and test set. The training error rate is `0.03819 or 3.819%`, the test error rate is `0.04694 or 4.694%`. And the linear-regression parameter is get from $\hat{\omega} = (XX^T)^{-1}Xy$, the implementing code is below:
 ```python
     X = np.insert(X, 0, values=np.ones((1, N)), axis=0) # add bias
     s = np.linalg.pinv(np.dot(X, X.transpose())) # (X X.T)^-1
@@ -194,7 +194,9 @@ end
 **(a) Implement Ridge Regression**
 
 - **(i)**
+&nbsp;&nbsp;&nbsp;&nbsp;In ridge regression, the parameters $\omega$ is training through this formula: $\omega = (XX^T + \lambda I)^{-1}Xy$. 
 &nbsp;&nbsp;&nbsp;&nbsp;The procedure to choose $\lambda$ is to calculate error number with LOOCV of each $\lambda \in lambdas$, after training process, I find that both $\lambda = 100$ and $\lambda = 1000$ get the best result $E_{val} = 7$ for `200` training set. Finally I choose **$\lambda = 100$** as the result of LOOCV. The whole code can see `validation.m`.
+&nbsp;&nbsp;&nbsp;&nbsp;Although This part is **running very slow** due to the matrix operations. Maybe using gradient descent will be faster than using optimal formula to parameters.
 
 <br>
 
@@ -213,6 +215,8 @@ end
 | :-: | :--------------------: | :-----------------: |
 | Training error | 0.0% | 0.0%                   | 
 | Testing error | 12.3054% | 5.9769% |
+
+![](../answer_images/hw2_2_a.png)
 
 <br>
 
@@ -243,7 +247,12 @@ end
 | Training error | 0.0% | 0.0%                   | 
 | Testing error | 8.3877% | 7.4335% |
 
+![](../answer_images/hw2_2_b.png)
+
 ---
+
+<br>
+<br>
 
 ### 3. Bias Variance Trade-off
 - **(i)**
