@@ -10,6 +10,13 @@ function y = knn(X, X_train, y_train, K)
 %
 
 % YOUR CODE HERE
-
+dist_matrix = EuDist2(X', X_train');
+[Y, idx] = sort(dist_matrix, 2);
+idx_k = idx(:, 1:K);
+if(K == 1)
+    y = y_train(idx_k);
+else
+    y = mode(y_train(idx_k), 2)';
+end
 end
 

@@ -7,5 +7,6 @@ function digits = hack(img_name)
 
 load('hack_data');
 % YOUR CODE HERE
-
+Xtest = extract_image(img_name);
+digits = knn(double(Xtest), double(X), double(y), 3);
 end
