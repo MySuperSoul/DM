@@ -7,7 +7,7 @@ function kmeans_plot(X, idx, ctrs, iter_ctrs)
 %          iter_ctrs - cluster centers of each iteration, K-by-p-by-iter
 %                       3D matrix.
 
-
+figure;
 plot(X(idx==1,1),X(idx==1,2),'r.','MarkerSize',12)
 hold on
 plot(X(idx==2,1),X(idx==2,2),'b.','MarkerSize',12)
@@ -25,7 +25,7 @@ plot(x2, y2,'-bo',...
      'MarkerSize',12,'LineWidth',2);
  
 legend('Cluster 1','Cluster 2',...
-       'Location','NW')
+       'Location','northwest')
 
 end
 
