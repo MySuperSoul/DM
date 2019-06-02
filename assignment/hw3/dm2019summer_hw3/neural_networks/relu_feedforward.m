@@ -7,5 +7,7 @@ function [ out ] = relu_feedforward( in )
 %           out : the output, shape: same as in
 
 % TODO
-
+tmp = in;
+tmp(tmp < 0) = 0;
+out = tmp;
 end

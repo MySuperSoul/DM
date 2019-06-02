@@ -17,6 +17,11 @@ function [weight_grad, bias_grad, out_sensitivity] = fullyconnect_backprop(in_se
 % Note : remember to divide by number of images in the calculation of gradients.
 
 % TODO
+number_of_images = size(in_sensitivity, 1);
+weight_grad = in' * in_sensitivity / number_of_images;
 
+bias_grad = (sum(in_sensitivity))' / number_of_images;
+
+out_sensitivity = in_sensitivity * weight';
 end
 

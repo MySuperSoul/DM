@@ -9,6 +9,9 @@ function [out] = fullyconnect_feedforward(in,  weight, bias)
 %       out     : the output of this layer, shape: [number of images, number of outputs]
 
 % TODO
-
+out = in * weight;
+for i=1:size(out, 1)
+    out(i, :) += bias';
+end
 end
 

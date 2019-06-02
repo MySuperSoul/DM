@@ -9,6 +9,9 @@ function [out_sensitivity] = relu_backprop(in_sensitivity, in)
 %       out_sensitivity : the sensitivity to the lower layer, shape: same as in_sensitivity
 
 % TODO
-
+relu_grad = in;
+relu_grad(relu_grad < 0) = 0;
+relu_grad(relu_grad > 0) = 1;
+out_sensitivity = relu_grad .* in_sensitivity;
 end
 
