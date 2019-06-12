@@ -1,4 +1,4 @@
-function [eigvector, eigvalue] = PCA(data)
+function [eigvector, eigvalue] = pca(data)
 %PCA	Principal Component Analysis
 %
 %             Input:
@@ -12,5 +12,10 @@ function [eigvector, eigvalue] = PCA(data)
 %
 
 % YOUR CODE HERE
-
+S = cov(data);
+[vectors, value] = eig(S, 'vector');
+% sorting by descend
+[value, idx] = sort(value, 'descend');
+eigvector = vectors(:, idx);
+eigvalue = value;
 end
