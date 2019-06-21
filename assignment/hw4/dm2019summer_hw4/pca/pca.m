@@ -12,8 +12,11 @@ function [eigvector, eigvalue] = pca(data)
 %
 
 % YOUR CODE HERE
+% calculate cov matrix of data
 S = cov(data);
-[vectors, value] = eig(S, 'vector');
+[vectors, value] = eig(S);
+% make value vectors
+value = sum(value, 2);
 % sorting by descend
 [value, idx] = sort(value, 'descend');
 eigvector = vectors(:, idx);

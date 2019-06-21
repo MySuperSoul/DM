@@ -6,12 +6,12 @@ img_r = double(imread(filename));
 
 % YOUR CODE HERE
 % here use position in image to represent features
-
+% filter non background piexls
 [x, y] = find(img_r < 255);
 data = [x, y];
 [eigvectors, eigvalues] = pca(data);
 project_pos = data * eigvectors;
-project_pos = round(project_pos);
+project_pos = ceil(project_pos);
 % normalize
 project_pos = project_pos - min(project_pos, [], 1) + 1;
 new_image = ones(size(img_r)) * 255;
