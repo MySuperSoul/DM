@@ -10,9 +10,10 @@ function idx = spectral(W, k)
 sum_w_matrix = sum(W, 2);
 D = zeros(size(W));
 D(logical(eye(size(D)))) = sum_w_matrix;
+fprintf("Finish D calculate\n");
 [y_matrix, value_matrix] = eig(D - W, D);
 y = y_matrix(:, 2); % second smallest eigen vector
-sprintf("Finish eigen y calculate");
-idx = litekmeans(y, k);
-sprintf("Finish spectral");
+fprintf("Finish eigen y calculate\n");
+idx = litekmeans(y, k); % perform kmeans
+fprintf("Finish spectral\n");
 end

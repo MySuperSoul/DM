@@ -8,7 +8,10 @@ load('ORL_data', 'fea_Train', 'gnd_Train', 'fea_Test', 'gnd_Test');
 % 2. Run PCA
 [eigenvectors, eigenvalues] = pca(fea_Train);
 % 3. Visualize eigenface
+figure;
 show_face(eigenvectors');
+figure;
+show_face(fea_Train);
 % 4. Project data on to low dimensional space
 reduced_dim = [8, 16, 32, 64, 128];
 % 5. Run KNN in low dimensional space

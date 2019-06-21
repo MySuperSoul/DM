@@ -1,7 +1,7 @@
 load('cluster_data', 'X');
 
 % Choose proper parameters
-k_in_knn_graph = 250;
+k_in_knn_graph = 300;
 threshold = 0.6;
 
 W = knn_graph(X, k_in_knn_graph, threshold);
