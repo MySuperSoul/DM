@@ -9,7 +9,11 @@ function idx = spectral(W, k)
 % YOUR CODE HERE
 sum_w_matrix = sum(W, 2);
 D = zeros(size(W));
-D(logical(eye(size(D)))) = sum_w_matrix;
+
+for i=1:size(D, 1)
+    D(i, i) = sum_w_matrix(i);
+end
+
 fprintf("Finish D calculate\n");
 [y_matrix, value_matrix] = eig(D - W, D);
 y = y_matrix(:, 2); % second smallest eigen vector

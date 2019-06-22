@@ -1,8 +1,8 @@
 function img = hack_pca(filename)
 % Input: filename -- input image file name/path
 % Output: img -- image without rotation
-
-img_r = double(imread(filename));
+img_o = imread(filename);
+img_r = double(img_o);
 
 % YOUR CODE HERE
 % here use position in image to represent features
@@ -10,18 +10,12 @@ img_r = double(imread(filename));
 [x, y] = find(img_r < 255);
 data = [x, y];
 [eigvectors, eigvalues] = pca(data);
-project_pos = data * eigvectors;
-project_pos = ceil(project_pos);
-% normalize
-project_pos = project_pos - min(project_pos, [], 1) + 1;
-new_image = ones(size(img_r)) * 255;
 
-for i=1:size(project_pos, 1)
-    row_origin = data(i, :);
-    row_project = project_pos(i, :);
-    new_image(row_project(2), row_project(1)) = img_r(row_origin(1), row_origin(2));
-end
-new_image = flipud(uint8(new_image));
+eigenvector = eigvectors(:, 1)';
+rotate_angle = rad2deg(atan2(eigenvector(1), eigenvector(2)));
+new_image_r = imrotate(img_o, rotate_angle);
+new_image_r(find(double(new_image_r) < 1)) = 255;
+
 figure;
-imshow(new_image);
+imshow(uint8(new_image_r));
 end

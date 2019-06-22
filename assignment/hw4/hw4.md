@@ -13,8 +13,12 @@
 ```matlab
 sum_w_matrix = sum(W, 2);
 D = zeros(size(W));
+
 % form matrix D
-D(logical(eye(size(D)))) = sum_w_matrix;
+for i=1:size(D, 1)
+    D(i, i) = sum_w_matrix(i);
+end
+
 [y_matrix, value_matrix] = eig(D - W, D);
 y = y_matrix(:, 2); % second smallest eigen vector
 idx = litekmeans(y, k); % perform kmeans
@@ -23,21 +27,26 @@ idx = litekmeans(y, k); % perform kmeans
 <br>
 
 - **(a)**
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part we will experiment spectral clustering on synthesis data. First we need to construct the knn-graph. The thoughts also very direct, we first calculate the distance by `EuDist2.m` in matrix `W`. Then for every data point we select the k closest points out, this we can sort and find the kth min distance for every point and corresponding index to form a vector, then we can easily find all data-points' knn neighbors using `W < vec`.
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Also we need to filter the very far points since we only need to focus the local connectivity, so we also need to consider the threshold for point's distance. This problem I select one proper threshold is `0.6` and the neighbor I select for knn-graph is `300`. They work fine in the result so I choose these.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; In this part we will experiment spectral clustering on synthesis data. First we need to construct the knn-graph. The thoughts also very direct, we first calculate the distance by `EuDist2.m` in matrix `distance_matrix`. Then for every data point we select the k closest points out, this we can sort and find the first k min distances for every point and corresponding index.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Also we need to filter the very far points since we only need to focus the local connectivity, so we also need to consider the threshold for point's distance. So one simple way to consider these two parts is that we just let the `distance_matrix` to find points which less than the `min(vector, threshold)`. 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; This problem I select one proper threshold is `0.6` and the neighbor I select for knn-graph is `300`. They work fine in the result so I choose these.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; One last thing is try to make the graph matrix `W symmetric` in order to calculate the eigen decomposition faster.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; The implementing is below, you can also find in `spectral_clustering/knn_graph.m and kmin_vector.m`:
 ```matlab
-function vec = kmin_vector(D, k)
+function [vector, idx] = kmin_vector(D, k)
     [Y, idx] = sort(D);
-    vec = Y(k, :);
+    vector = Y(k, :);
+    idx = idx(k, :);
 end
 
 function W = knn_graph(X, k, threshold)
     distance_matrix = EuDist2(X);
-    vec = kmin_vector(distance_matrix, k);
-    W = distance_matrix <= vec;
-    % filter threshold
-    W = W & (distance_matrix <= threshold);
+    [vector, idx] = kmin_vector(distance_matrix, k);
+    
+    W = zeros(size(distance_matrix));
+    % consider threshold
+    W = distance_matrix < 
+        min([vector;threshold * ones(size(vector))], [], 1);
     W = W | W'; % make symmetric matrix
 end
 ```
@@ -116,30 +125,27 @@ end
 1. Find out the non background color pixel by `[x, y] = find(img_r < 255);`
 2. Then use the coordinate x, y as the feature of one data point.
 3. Perform pca on data points and get the eigen vectors.
-4. Do transformation by `project_pos = data * eigvectors;` and `ceil` to be int value here. And then make the coordinates all positive by minus the minimum value of project_x and project_y, do not forget to add `1` for some positions will be `0` and this will lead to bugs when you try to put some value on the transformed position.
-5. Then form a mapping from origin coordinates to the project coordinates, copy the corresponding pixel value to project position, then show the images.
+4. Then I use the first eigen vector which represents the direction of most variance information contains. Calculate the angle with x axis using builtin functions `atan2` and `rad2deg` to calculate.
+5. Then simply rotate the input image with the angle calculated.
+6. Filter the background points piexl value to 255(white).
 ```matlab
 function img = hack_pca(filename)
-    img_r = double(imread(filename));
+    img_o = imread(filename);
+    img_r = double(img_o);
+
     % here use position in image to represent features
     % filter non background piexls
     [x, y] = find(img_r < 255);
     data = [x, y];
     [eigvectors, eigvalues] = pca(data);
-    project_pos = data * eigvectors;
-    project_pos = ceil(project_pos);
-    % normalize
-    project_pos = project_pos - min(project_pos, [], 1) + 1;
-    new_image = ones(size(img_r)) * 255;
 
-    for i=1:size(project_pos, 1)
-        row_origin = data(i, :);
-        row_project = project_pos(i, :);
-        new_image(row_project(2), row_project(1)) = img_r(row_origin(1), row_origin(2));
-    end
-    new_image = flipud(uint8(new_image));
+    eigenvector = eigvectors(:, 1)';
+    rotate_angle = rad2deg(atan2(eigenvector(1), eigenvector(2)));
+    new_image_r = imrotate(img_o, rotate_angle);
+    new_image_r(find(double(new_image_r) < 1)) = 255;
+
     figure;
-    imshow(new_image);
+    imshow(uint8(new_image_r));
 end
 ```
 
